@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Mafia Night — Host Mode",
+  "short_name": "Mafia Night",
+  "description": "Offline pass-and-play Mafia party game with private role reveal and host tracker.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1020",
+  "theme_color": "#111827",
+  "icons": [
+    {"src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

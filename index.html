@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/icon-192.png" type="image/png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mafia Night"><title>Mafia Night — Host Mode</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--panel2:#1c2740;--text:#f4f7ff;--muted:#a8b3ca;--line:#2b3854;--accent:#a78bfa;--green:#86efac;--red:#fda4af;--amber:#fcd34d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#20294a 0%,var(--bg) 55%);color:var(--text);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+main{max-width:720px;margin:0 auto;padding:20px 14px calc(30px + env(safe-area-inset-bottom))}header{text-align:center;padding:8px 0 18px}.logo{font-size:40px}h1{font-size:29px;margin:3px 0}header p{color:var(--muted);margin:0}
+.card{background:rgba(21,29,49,.96);border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0;box-shadow:0 10px 28px #0002}h2{font-size:18px;margin:0 0 12px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}textarea,input,select{font:inherit;color:var(--text);background:#0e1527;border:1px solid var(--line);border-radius:10px;padding:10px;width:100%;outline:none}textarea{min-height:135px;resize:vertical}
+button{font:inherit;font-weight:700;border:0;border-radius:11px;padding:11px 13px;cursor:pointer;touch-action:manipulation}.primary{background:var(--accent);color:#17122b;width:100%;margin-top:13px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#4b202c;color:#fecdd3;border:1px solid #713747}.green{background:#173b2b;color:#bbf7d0;border:1px solid #2a6347}
+.counts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.role-config{background:#0e1527;border:1px solid var(--line);border-radius:11px;padding:8px;display:flex;align-items:center;gap:7px}.role-config span{flex:1;font-size:13px}.role-config input{width:60px;flex:0 0 60px;text-align:center;padding:7px}
+.small{font-size:12px;color:var(--muted)}.notice{padding:10px 11px;background:#241e3e;border:1px solid #403568;border-radius:12px;color:#ddd6fe;font-size:13px;margin-top:10px}.section-label{font-size:12px;color:#c4b5fd;text-transform:uppercase;letter-spacing:.1em;margin:17px 0 7px}.hidden{display:none!important}
+.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}.status{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:10px}.player{background:#0e1527;border:1px solid var(--line);border-radius:13px;padding:11px;margin:8px 0}.player-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.player-top strong{overflow-wrap:anywhere}.life{font-size:11px;color:var(--muted);margin-top:3px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.actions button{font-size:12px;padding:9px 5px}.role{font-weight:800;padding:7px 9px;border-radius:9px;text-align:center;white-space:nowrap;font-size:13px}.role.mafia{background:#512233;color:#fecdd3}.role.civilian{background:#24334d;color:#dbeafe}.role.detective{background:#183f4b;color:#a5f3fc}.role.angel,.role.doctor,.role.bodyguard{background:#204333;color:#bbf7d0}.role.joker,.role.witch{background:#4a3370;color:#e9d5ff}.role.serial{background:#542b25;color:#fed7aa}.role.mayor,.role.vigilante{background:#3b3b20;color:#fef08a}
+.banner{border-radius:14px;padding:14px;margin:10px 0;text-align:center;background:#183b2c;border:1px solid #2b6b4c}.banner h2{font-size:22px;margin:0 0 5px;color:var(--green)}.banner p{margin:0;color:#dcfce7}.dead{opacity:.65}.dead .player-top strong{text-decoration:line-through}.pill{font-size:11px;border-radius:99px;padding:4px 8px;background:#29344c;color:#dbeafe}.log-item{font-size:13px;color:var(--muted);padding:7px 0;border-bottom:1px solid var(--line)}.log-item:last-child{border-bottom:0}footer{text-align:center;color:var(--muted);font-size:12px;padding-top:8px}
+@media(max-width:380px){h1{font-size:25px}.actions button{font-size:11px}.player{padding:9px}.counts{gap:6px}}
+
+.reveal-stage{text-align:center;padding:22px 14px 18px;background:linear-gradient(155deg,#202b49,#11182a);border:1px solid #465477;border-radius:20px;margin:12px 0;min-height:310px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.reveal-step{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:800}.reveal-avatar{width:92px;height:92px;border-radius:28px;display:grid;place-items:center;font-size:47px;background:linear-gradient(145deg,#353d64,#201a3b);border:1px solid #7164a7;box-shadow:0 12px 35px #0005;margin:18px 0}.reveal-player-name{font-size:28px;line-height:1.15;overflow-wrap:anywhere;margin:0 0 8px}.reveal-instruction{color:var(--muted);margin:0 0 18px}.reveal-role{font-size:22px;padding:13px 18px;border-radius:14px;margin:6px 0 14px;box-shadow:0 8px 24px #0004}.reveal-stage .primary{max-width:360px}.reveal-progress{height:5px;border-radius:9px;background:#29344c;overflow:hidden;width:100%;margin-top:20px}.reveal-progress span{display:block;height:100%;background:linear-gradient(90deg,#a78bfa,#67e8f9);transition:width .2s}.reveal-finished{font-size:48px;margin-bottom:12px}
+</style></head>
+<body><main>
+<header><div class="logo">🎭</div><h1>MAFIA NIGHT</h1><p>Host mode · Track the whole game on one phone</p></header>
+
+<section class="card" id="setup">
+<h2>Game setup · <span id="playerCount">9</span> players</h2>
+<label for="names">One player per line</label><textarea id="names" spellcheck="false">Rajagopal
+Jai Akash
+Nithish
+Naveen
+Saravana
+Selva
+Abu
+Chandru
+Sarath</textarea>
+<div class="section-label">Core roles</div><div class="counts">
+<div class="role-config"><span>🔪 Mafia</span><input id="Mafia" type="number" min="0" max="50" value="3"></div>
+<div class="role-config"><span>👨‍🌾 Civilian</span><input id="Civilian" type="number" min="0" max="50" value="3"></div>
+<div class="role-config"><span>🕵️ Detective</span><input id="Detective" type="number" min="0" max="50" value="1"></div>
+<div class="role-config"><span>😇 Angel</span><input id="Angel" type="number" min="0" max="50" value="1"></div>
+<div class="role-config"><span>🃏 Joker</span><input id="Joker" type="number" min="0" max="50" value="1"></div></div>
+<div class="section-label">Optional special roles (0 = disabled)</div><div class="counts">
+<div class="role-config"><span>🩺 Doctor</span><input id="Doctor" type="number" min="0" max="50" value="0"></div>
+<div class="role-config"><span>🛡️ Bodyguard</span><input id="Bodyguard" type="number" min="0" max="50" value="0"></div>
+<div class="role-config"><span>🧙 Witch</span><input id="Witch" type="number" min="0" max="50" value="0"></div>
+<div class="role-config"><span>💀 Serial Killer</span><input id="SerialKiller" type="number" min="0" max="50" value="0"></div>
+<div class="role-config"><span>👑 Mayor</span><input id="Mayor" type="number" min="0" max="50" value="0"></div>
+<div class="role-config"><span>🎯 Vigilante</span><input id="Vigilante" type="number" min="0" max="50" value="0"></div></div>
+<div id="validation" class="notice">Checking setup…</div>
+<button class="primary" id="start">▶ Start round & assign roles</button>
+<p class="small">Requires at least 1 Mafia, 3 Civilians, unique names, and an exact match between players and roles.</p>
+</section>
+
+<section class="card hidden" id="reveal">
+<div class="status"><span id="revealRoundLabel">ROUND 1 · ROLE REVEAL</span><span id="revealCount">0 / 9 completed</span></div>
+<div id="revealStage" class="reveal-stage"></div>
+<button class="primary" id="beginGame" disabled>Start game & open host dashboard</button>
+<div id="revealHint" class="notice">Each player reveals their own role, hides it, then passes the phone.</div>
+</section>
+
+<section class="card hidden" id="game">
+<div class="status"><span id="roundLabel">ROUND 1</span><span id="aliveLabel">9 alive</span></div>
+<div id="winner"></div>
+<div id="phaseNote" class="notice">Round started. Host: record each elimination below.</div>
+<h2>Players & host actions</h2>
+<p class="small">Tap an action beside a player to log a night kill or daytime vote-out. Roles stay visible to the host. Eliminations are permanent unless you undo the last action.</p>
+<div id="players"></div>
+<div class="row" style="margin-top:12px"><button class="secondary" id="undo">↩ Undo last</button><button class="secondary" id="newGame">🎲 New round</button></div>
+<div class="row" style="margin-top:8px"><button class="secondary" id="edit">⚙️ Edit setup</button><button class="danger" id="reset">Reset game</button></div>
+</section>
+<section class="card hidden" id="historyCard"><h2>Game log</h2><div id="history"></div></section>
+<section class="card"><h2>Win rules used</h2>
+<p style="margin:6px 0">🔪 <b>Mafia:</b> wins when living Mafia equal or outnumber all other living players, unless a special independent role has already won.</p>
+<p style="margin:6px 0">🧑‍🤝‍🧑 <b>Town (Civilians + good roles):</b> wins when all Mafia are eliminated.</p>
+<p style="margin:6px 0">🃏 <b>Joker:</b> instantly wins if voted out during the day; does not win if killed at night.</p>
+<p style="margin:6px 0">💀 <b>Serial Killer:</b> wins if they are the sole survivor. This simple version checks this after each elimination.</p>
+<p class="small">These are default house rules. Doctor, Angel, Bodyguard, Witch, Mayor and Vigilante have their assigned roles but their special powers are not automatically resolved by the tracker; the host runs those rules manually.</p></section>
+<footer>Local browser app · No account needed · Host controls the tracker</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const roleDefs=[
+{id:"Mafia",name:"Mafia",emoji:"🔪",cls:"mafia",team:"mafia"},
+{id:"Civilian",name:"Civilian",emoji:"👨‍🌾",cls:"civilian",team:"town"},
+{id:"Detective",name:"Detective",emoji:"🕵️",cls:"detective",team:"town"},
+{id:"Angel",name:"Angel",emoji:"😇",cls:"angel",team:"town"},
+{id:"Joker",name:"Joker",emoji:"🃏",cls:"joker",team:"joker"},
+{id:"Doctor",name:"Doctor",emoji:"🩺",cls:"doctor",team:"town"},
+{id:"Bodyguard",name:"Bodyguard",emoji:"🛡️",cls:"bodyguard",team:"town"},
+{id:"Witch",name:"Witch",emoji:"🧙",cls:"witch",team:"town"},
+{id:"SerialKiller",name:"Serial Killer",emoji:"💀",cls:"serial",team:"serial"},
+{id:"Mayor",name:"Mayor",emoji:"👑",cls:"mayor",team:"town"},
+{id:"Vigilante",name:"Vigilante",emoji:"🎯",cls:"vigilante",team:"town"}];
+let round=0,players=[],log=[],winner=null,revealViewed=new Set(),revealingIndex=null;
+function getNames(){return $('names').value.split(/\n/).map(s=>s.trim()).filter(Boolean)}
+function getCounts(){return Object.fromEntries(roleDefs.map(r=>[r.id,Number($(r.id).value)]))}
+function validate(){const ns=getNames(),c=getCounts(),vals=Object.values(c),total=vals.reduce((a,b)=>a+(Number.isFinite(b)?b:0),0),errors=[];
+$('playerCount').textContent=ns.length;
+if(ns.length<4)errors.push('Add at least 4 players.');
+if(ns.some((n,i)=>ns.findIndex(x=>x.toLowerCase()===n.toLowerCase())!==i))errors.push('Player names must be unique.');
+if(vals.some(n=>!Number.isInteger(n)||n<0||n>50))errors.push('Role counts must be whole numbers from 0 to 50.');
+if(c.Mafia<1)errors.push('At least 1 Mafia is required.');
+if(c.Civilian<3)errors.push('At least 3 Civilians are required.');
+if(total!==ns.length)errors.push(`${ns.length} players but ${total} roles selected.`);
+const ok=!errors.length;$('validation').textContent=ok?`${ns.length} players · ${total} roles. Ready to start!`:errors.join(' ');$('validation').style.borderColor=ok?'#2b6b51':'#8a4655';$('start').disabled=!ok;$('start').style.opacity=ok?'1':'.5';return ok}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startGame(){
+ if(!validate())return;
+ try {
+  const deck=[];const counts=getCounts();
+  roleDefs.forEach(r=>{for(let i=0;i<counts[r.id];i++)deck.push(r.id)});
+  if(deck.length!==getNames().length)throw new Error('The number of roles must exactly match the number of players.');
+  shuffle(deck);
+  players=shuffle(getNames().map((name,i)=>({name,role:roleDefs.find(r=>r.id===deck[i]),alive:true})));
+  if(players.some(p=>!p.role))throw new Error('A role could not be assigned. Check the role counts and try again.');
+  round++;log=[];winner=null;revealViewed=new Set();revealingIndex=null;
+  $('revealRoundLabel').textContent=`ROUND ${round} · ROLE REVEAL`;
+  $('setup').classList.add('hidden');$('game').classList.add('hidden');$('historyCard').classList.add('hidden');$('reveal').classList.remove('hidden');
+  renderReveal();
+ } catch(err) { $('validation').textContent='Could not start: '+err.message; $('validation').style.borderColor='#fda4af'; }
+}
+function renderReveal(){
+ const total=players.length,done=revealViewed.size;
+ $('revealCount').textContent=`${done} / ${total} completed`;
+ $('beginGame').disabled=done!==total||revealingIndex!==null;
+ $('beginGame').style.opacity=$('beginGame').disabled?'.5':'1';
+ $('revealHint').textContent=done===total?'Everyone has checked their role. Start the game!':'Keep the role hidden from everyone else; pass the phone after hiding it.';
+ const root=$('revealStage');root.innerHTML='';
+ const add=(tag,cls,txt,parent=root)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;parent.appendChild(e);return e};
+ const progress=()=>{const bar=add('div','reveal-progress');const fill=add('span','');fill.style.width=`${total?done/total*100:0}%`};
+ if(done===total&&revealingIndex===null){add('div','reveal-finished','🎉');add('div','reveal-step','ALL ROLES DISTRIBUTED');add('h2','reveal-player-name','Everyone is ready!');add('p','reveal-instruction','All roles have been revealed and hidden. Start the game when everyone is seated.');progress();return;}
+ const idx=revealingIndex!==null?revealingIndex:players.findIndex((p,i)=>!revealViewed.has(i));
+ if(idx<0||!players[idx]){add('h2','reveal-player-name','Something went wrong');add('p','reveal-instruction','Return to setup and start the round again.');return;}
+ const p=players[idx];
+ add('div','reveal-step',`PLAYER ${idx+1} OF ${total}`);
+ add('div','reveal-avatar',revealingIndex===idx?p.role.emoji:'🎭');
+ add('h2','reveal-player-name',revealingIndex===idx?p.name:`Pass the phone to ${p.name}`);
+ if(revealingIndex===idx){add('p','reveal-instruction','Memorize your role. Keep it secret!');add('div',`role ${p.role.cls} reveal-role`,`${p.role.emoji}  ${p.role.name}`);const hide=add('button','primary','🙈 Hide role & pass phone');hide.onclick=()=>{revealingIndex=null;revealViewed.add(idx);renderReveal()};}
+ else{add('p','reveal-instruction','Only this player should be looking at the screen.');const reveal=add('button','primary','👁️ Tap to reveal your role');reveal.onclick=()=>{revealingIndex=idx;renderReveal()};}
+ progress();
+}
+function beginHostGame(){
+ if(revealViewed.size!==players.length||revealingIndex!==null)return;
+ $('reveal').classList.add('hidden');$('game').classList.remove('hidden');$('historyCard').classList.remove('hidden');
+ $('roundLabel').textContent=`ROUND ${round}`;$('phaseNote').textContent='Round started. Host: record each elimination below.';render();
+}
+function record(i,kind){if(winner||!players[i].alive)return;const p=players[i];p.alive=false;log.push({i,kind,name:p.name,role:p.role.name,priorWinner:winner});if(kind==='voted'&&p.role.id==='Joker')winner={title:'🃏 Joker wins!',detail:`${p.name} was voted out. The Joker wins instantly.`};else checkWinner();render()}
+function checkWinner(){if(winner)return;const alive=players.filter(p=>p.alive),mafia=alive.filter(p=>p.role.team==='mafia').length,town=alive.filter(p=>p.role.team==='town').length,serial=alive.filter(p=>p.role.team==='serial').length;
+if(alive.length===1&&alive[0].role.team==='serial'){winner={title:'💀 Serial Killer wins!',detail:`${alive[0].name} is the last survivor.`};return}
+if(mafia===0){winner={title:'🏘️ Town wins!',detail:'All Mafia players have been eliminated.'};return}
+if(mafia>=alive.length-mafia){winner={title:'🔪 Mafia wins!',detail:'Living Mafia equal or outnumber all other living players.'};return}
+if(alive.length===0){winner={title:'No survivors',detail:'Everyone has been eliminated.'};return}
+}
+function undo(){if(!log.length)return;const last=log.pop();players[last.i].alive=true;winner=last.priorWinner||null;render()}
+function render(){const alive=players.filter(p=>p.alive).length;$('aliveLabel').textContent=`${alive} alive`;$('winner').innerHTML='';
+if(winner){const b=document.createElement('div');b.className='banner';const h=document.createElement('h2');h.textContent=winner.title;const p=document.createElement('p');p.textContent=winner.detail;b.append(h,p);$('winner').appendChild(b);$('phaseNote').textContent='Game over. Start a new round or undo the last elimination.'}else{$('phaseNote').textContent='Game in progress. Record eliminations as they happen.'}
+const root=$('players');root.innerHTML='';players.forEach((p,i)=>{const el=document.createElement('div');el.className='player'+(!p.alive?' dead':'');const top=document.createElement('div');top.className='player-top';const left=document.createElement('div');const name=document.createElement('strong');name.textContent=p.name;left.appendChild(name);const life=document.createElement('div');life.className='life';life.textContent=p.alive?'ALIVE':'ELIMINATED';left.appendChild(life);top.appendChild(left);const role=document.createElement('span');role.className='role '+p.role.cls;role.textContent=`${p.role.emoji} ${p.role.name}`;top.appendChild(role);el.appendChild(top);
+if(p.alive&&!winner){const actions=document.createElement('div');actions.className='actions';const kill=document.createElement('button');kill.className='danger';kill.textContent='☾ Night kill';kill.onclick=()=>confirm(`Log ${p.name} as killed at night?`)&&record(i,'killed');const voted=document.createElement('button');voted.className='secondary';voted.textContent='🗳️ Voted out';voted.onclick=()=>confirm(`Log ${p.name} as voted out during the day?`)&&record(i,'voted');const other=document.createElement('button');other.className='secondary';other.textContent='✖ Other death';other.onclick=()=>confirm(`Log ${p.name} as eliminated by another method?`)&&record(i,'other');actions.append(kill,voted,other);el.appendChild(actions)}
+root.appendChild(el)});
+const hist=$('history');hist.innerHTML='';if(!log.length){const e=document.createElement('div');e.className='small';e.textContent='No eliminations logged yet.';hist.appendChild(e)}else log.forEach((a,n)=>{const d=document.createElement('div');d.className='log-item';d.textContent=`${n+1}. ${a.name} — ${a.kind==='killed'?'killed at night':a.kind==='voted'?'voted out':'other elimination'} (${a.role})`;hist.appendChild(d)});
+$('undo').disabled=!log.length;$('undo').style.opacity=log.length?'1':'.5';}
+$('start').onclick=startGame;$('beginGame').onclick=beginHostGame;$('newGame').onclick=()=>{if(confirm('Start a new round with the current setup? All current game progress will be cleared.'))startGame()};$('undo').onclick=undo;
+$('edit').onclick=()=>{$('game').classList.add('hidden');$('reveal').classList.add('hidden');$('historyCard').classList.add('hidden');$('setup').classList.remove('hidden');validate()};
+$('reset').onclick=()=>{if(confirm('Reset the game and return to setup?')){$('game').classList.add('hidden');$('reveal').classList.add('hidden');$('historyCard').classList.add('hidden');$('setup').classList.remove('hidden');players=[];log=[];winner=null;revealViewed=new Set();revealingIndex=null}};
+['names',...roleDefs.map(r=>r.id)].forEach(id=>$(id).addEventListener('input',validate));validate();
+</script><script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.warn("Offline support could not be registered", err))); }</script>
+</body></html>
