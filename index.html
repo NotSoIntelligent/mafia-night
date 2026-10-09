@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#09050b">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icons/icon-192.png" type="image/png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -10,23 +10,224 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mafia Night"><title>Mafia Night — Host Mode</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--panel2:#1c2740;--text:#f4f7ff;--muted:#a8b3ca;--line:#2b3854;--accent:#a78bfa;--green:#86efac;--red:#fda4af;--amber:#fcd34d}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#20294a 0%,var(--bg) 55%);color:var(--text);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+:root{color-scheme:dark;--bg:#080808;--panel:#171717;--panel2:#252525;--text:#f5f5f5;--muted:#b0b0b0;--line:#3a3a3a;--accent:#d4d4d4;--green:#86efac;--red:#fda4af;--amber:#fcd34d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#242424 0%,var(--bg) 58%);color:var(--text);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
 main{max-width:720px;margin:0 auto;padding:20px 14px calc(30px + env(safe-area-inset-bottom))}header{text-align:center;padding:8px 0 18px}.logo{font-size:40px}h1{font-size:29px;margin:3px 0}header p{color:var(--muted);margin:0}
-.card{background:rgba(21,29,49,.96);border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0;box-shadow:0 10px 28px #0002}h2{font-size:18px;margin:0 0 12px}
-label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}textarea,input,select{font:inherit;color:var(--text);background:#0e1527;border:1px solid var(--line);border-radius:10px;padding:10px;width:100%;outline:none}textarea{min-height:135px;resize:vertical}
+.card{background:rgba(23,23,23,.98);border:1px solid var(--line);border-radius:18px;padding:15px;margin:12px 0;box-shadow:0 10px 28px #0002}h2{font-size:18px;margin:0 0 12px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}textarea,input,select{font:inherit;color:var(--text);background:#111111;border:1px solid var(--line);border-radius:10px;padding:10px;width:100%;outline:none}textarea{min-height:135px;resize:vertical}
 button{font:inherit;font-weight:700;border:0;border-radius:11px;padding:11px 13px;cursor:pointer;touch-action:manipulation}.primary{background:var(--accent);color:#17122b;width:100%;margin-top:13px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#4b202c;color:#fecdd3;border:1px solid #713747}.green{background:#173b2b;color:#bbf7d0;border:1px solid #2a6347}
-.counts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.role-config{background:#0e1527;border:1px solid var(--line);border-radius:11px;padding:8px;display:flex;align-items:center;gap:7px}.role-config span{flex:1;font-size:13px}.role-config input{width:60px;flex:0 0 60px;text-align:center;padding:7px}
-.small{font-size:12px;color:var(--muted)}.notice{padding:10px 11px;background:#241e3e;border:1px solid #403568;border-radius:12px;color:#ddd6fe;font-size:13px;margin-top:10px}.section-label{font-size:12px;color:#c4b5fd;text-transform:uppercase;letter-spacing:.1em;margin:17px 0 7px}.hidden{display:none!important}
-.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}.status{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:10px}.player{background:#0e1527;border:1px solid var(--line);border-radius:13px;padding:11px;margin:8px 0}.player-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.player-top strong{overflow-wrap:anywhere}.life{font-size:11px;color:var(--muted);margin-top:3px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.actions button{font-size:12px;padding:9px 5px}.role{font-weight:800;padding:7px 9px;border-radius:9px;text-align:center;white-space:nowrap;font-size:13px}.role.mafia{background:#512233;color:#fecdd3}.role.civilian{background:#24334d;color:#dbeafe}.role.detective{background:#183f4b;color:#a5f3fc}.role.angel,.role.doctor,.role.bodyguard{background:#204333;color:#bbf7d0}.role.joker,.role.witch{background:#4a3370;color:#e9d5ff}.role.serial{background:#542b25;color:#fed7aa}.role.mayor,.role.vigilante{background:#3b3b20;color:#fef08a}
-.banner{border-radius:14px;padding:14px;margin:10px 0;text-align:center;background:#183b2c;border:1px solid #2b6b4c}.banner h2{font-size:22px;margin:0 0 5px;color:var(--green)}.banner p{margin:0;color:#dcfce7}.dead{opacity:.65}.dead .player-top strong{text-decoration:line-through}.pill{font-size:11px;border-radius:99px;padding:4px 8px;background:#29344c;color:#dbeafe}.log-item{font-size:13px;color:var(--muted);padding:7px 0;border-bottom:1px solid var(--line)}.log-item:last-child{border-bottom:0}footer{text-align:center;color:var(--muted);font-size:12px;padding-top:8px}
+.counts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.role-config{background:#111111;border:1px solid var(--line);border-radius:11px;padding:8px;display:flex;align-items:center;gap:7px}.role-config span{flex:1;font-size:13px}.role-config input{width:60px;flex:0 0 60px;text-align:center;padding:7px}
+.small{font-size:12px;color:var(--muted)}.notice{padding:10px 11px;background:#242424;border:1px solid #444;border-radius:12px;color:#e5e5e5;font-size:13px;margin-top:10px}.section-label{font-size:12px;color:#d4d4d4;text-transform:uppercase;letter-spacing:.1em;margin:17px 0 7px}.hidden{display:none!important}
+.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}.status{display:flex;justify-content:space-between;gap:10px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:10px}.player{background:#111111;border:1px solid var(--line);border-radius:13px;padding:11px;margin:8px 0}.player-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.player-top strong{overflow-wrap:anywhere}.life{font-size:11px;color:var(--muted);margin-top:3px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.actions button{font-size:12px;padding:9px 5px}.role{font-weight:800;padding:7px 9px;border-radius:9px;text-align:center;white-space:nowrap;font-size:13px}.role.mafia{background:#512233;color:#fecdd3}.role.civilian{background:#333333;color:#f0f0f0}.role.detective{background:#183f4b;color:#a5f3fc}.role.angel,.role.doctor,.role.bodyguard{background:#204333;color:#bbf7d0}.role.joker,.role.witch{background:#4a3370;color:#e9d5ff}.role.serial{background:#542b25;color:#fed7aa}.role.mayor,.role.vigilante{background:#3b3b20;color:#fef08a}
+.banner{border-radius:14px;padding:14px;margin:10px 0;text-align:center;background:#183b2c;border:1px solid #2b6b4c}.banner h2{font-size:22px;margin:0 0 5px;color:var(--green)}.banner p{margin:0;color:#dcfce7}.dead{opacity:.65}.dead .player-top strong{text-decoration:line-through}.pill{font-size:11px;border-radius:99px;padding:4px 8px;background:#303030;color:#eeeeee}.log-item{font-size:13px;color:var(--muted);padding:7px 0;border-bottom:1px solid var(--line)}.log-item:last-child{border-bottom:0}footer{text-align:center;color:var(--muted);font-size:12px;padding-top:8px}
 @media(max-width:380px){h1{font-size:25px}.actions button{font-size:11px}.player{padding:9px}.counts{gap:6px}}
 
-.reveal-stage{text-align:center;padding:22px 14px 18px;background:linear-gradient(155deg,#202b49,#11182a);border:1px solid #465477;border-radius:20px;margin:12px 0;min-height:310px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.reveal-step{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:800}.reveal-avatar{width:92px;height:92px;border-radius:28px;display:grid;place-items:center;font-size:47px;background:linear-gradient(145deg,#353d64,#201a3b);border:1px solid #7164a7;box-shadow:0 12px 35px #0005;margin:18px 0}.reveal-player-name{font-size:28px;line-height:1.15;overflow-wrap:anywhere;margin:0 0 8px}.reveal-instruction{color:var(--muted);margin:0 0 18px}.reveal-role{font-size:22px;padding:13px 18px;border-radius:14px;margin:6px 0 14px;box-shadow:0 8px 24px #0004}.reveal-stage .primary{max-width:360px}.reveal-progress{height:5px;border-radius:9px;background:#29344c;overflow:hidden;width:100%;margin-top:20px}.reveal-progress span{display:block;height:100%;background:linear-gradient(90deg,#a78bfa,#67e8f9);transition:width .2s}.reveal-finished{font-size:48px;margin-bottom:12px}
-</style></head>
+.reveal-stage{text-align:center;padding:22px 14px 18px;background:linear-gradient(155deg,#252525,#101010);border:1px solid #444444;border-radius:20px;margin:12px 0;min-height:310px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.reveal-step{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#d4d4d4;font-weight:800}.reveal-avatar{width:92px;height:92px;border-radius:28px;display:grid;place-items:center;font-size:47px;background:linear-gradient(145deg,#444,#1a1a1a);border:1px solid #666;box-shadow:0 12px 35px #0005;margin:18px 0}.reveal-player-name{font-size:28px;line-height:1.15;overflow-wrap:anywhere;margin:0 0 8px}.reveal-instruction{color:var(--muted);margin:0 0 18px}.reveal-role{font-size:22px;padding:13px 18px;border-radius:14px;margin:6px 0 14px;box-shadow:0 8px 24px #0004}.reveal-stage .primary{max-width:360px}.reveal-progress{height:5px;border-radius:9px;background:#303030;overflow:hidden;width:100%;margin-top:20px}.reveal-progress span{display:block;height:100%;background:linear-gradient(90deg,#f0f0f0,#777);transition:width .2s}.reveal-finished{font-size:48px;margin-bottom:12px}
+
+/* Mafia Night: lively polish */
+:root{--accent:#d4d4d4}
+button{transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}button:active{transform:scale(.97)}button:focus-visible{outline:3px solid #fda4af;outline-offset:3px}
+.logo{display:inline-block;filter:drop-shadow(0 0 16px #aaaaaa55);animation:maskFloat 3.5s ease-in-out infinite}
+@keyframes maskFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+.card{animation:cardIn .35s ease both}.player{transition:opacity .25s ease,transform .25s ease,border-color .25s ease}.player:not(.dead):hover{border-color:#777777}
+.reveal-stage{position:relative;overflow:hidden}.reveal-stage:before{content:"";position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent,#aaaaaa18,transparent,#7777771a,transparent);animation:stageGlow 14s linear infinite;pointer-events:none}.reveal-stage>*{position:relative;z-index:1}
+.reveal-avatar{animation:avatarPulse 2.8s ease-in-out infinite}.reveal-role{animation:rolePop .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes stageGlow{to{transform:rotate(360deg)}}@keyframes avatarPulse{0%,100%{box-shadow:0 12px 35px #0005}50%{box-shadow:0 12px 35px #a78bfa38,0 0 0 5px #a78bfa0c}}@keyframes rolePop{from{opacity:0;transform:scale(.82) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.alive-meter{height:7px;background:#303030;border-radius:99px;overflow:hidden;margin:8px 0 12px}.alive-meter span{display:block;height:100%;background:linear-gradient(90deg,#d4d4d4,#777777);transition:width .35s}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.endgame-overlay{position:relative;overflow:hidden;text-align:center;padding:24px 16px 20px;border-radius:20px;border:1px solid #555;background:radial-gradient(circle at 50% 0%,#333 0%,#191919 58%,#090909 100%);box-shadow:0 12px 36px #0005;margin:8px 0 16px;animation:endgameIn .5s cubic-bezier(.2,.8,.2,1) both}
+.endgame-trophy{font-size:62px;line-height:1.15;margin:12px 0;filter:drop-shadow(0 5px 16px #aaaaaa66);animation:trophyPop .65s cubic-bezier(.2,1.5,.5,1) both}
+.endgame-kicker{font-size:11px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:#d4d4d4}
+.endgame-title{font-size:clamp(27px,7vw,38px);line-height:1.05;margin:8px 0 10px;color:#fff}
+.endgame-detail{max-width:440px;margin:0 auto 18px;color:#dddddd}
+.endgame-stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0}
+.endgame-stat{background:#101010;border:1px solid #444;border-radius:12px;padding:9px 14px;min-width:95px}
+.endgame-stat strong{display:block;font-size:22px;color:#e5e5e5}.endgame-stat span{font-size:11px;color:#b0b0b0}
+.endgame-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.endgame-actions button{min-width:140px}
+.endgame-overlay .primary{width:auto;margin:0;background:linear-gradient(135deg,#f0f0f0,#a3a3a3);color:#111}
+.endgame-replay{background:#252525;color:#f5f5f5;border:1px solid #555}
+@keyframes endgameIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes trophyPop{from{transform:scale(.45) rotate(-12deg)}to{transform:scale(1) rotate(0)}}
+@keyframes confettiFall{to{top:105%;transform:translateY(80px) rotate(540deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.endgame-overlay,.endgame-trophy{animation:none}}
+/* Final monochrome pass: all structural panels and section surfaces */
+.card,.notice,.reveal-stage,.endgame-overlay,.endgame-stat,.role-config,.player{background-color:#171717!important;color:var(--text);border-color:#3a3a3a}
+.card{background:rgba(23,23,23,.98)!important}
+.notice{background:#242424!important;color:#e5e5e5!important}
+.reveal-stage{background:linear-gradient(155deg,#252525,#101010)!important}
+.banner{background:#202020!important;border-color:#444!important}
+
+/* Crimson noir theme inspired by the Mafia Night app icon */
+:root{--bg:#07050a;--panel:#100b12;--panel2:#1b1119;--text:#fff4f2;--muted:#c0aeb4;--line:#46202b;--accent:#ff263d;--green:#ff5364;--red:#ff5364;--amber:#ffb3a8}
+body{background:radial-gradient(ellipse at 50% -12%,#5b0b1b 0%,#200812 30%,#08060b 67%,#050409 100%)!important;color:var(--text)}
+header{padding-top:12px}
+header .logo{filter:drop-shadow(0 0 9px #ff203c99) drop-shadow(0 0 24px #a800244d)}
+h1{color:#fff5f4;text-shadow:0 2px 0 #5d0719,0 0 24px #ff173955;letter-spacing:.045em}
+header p{color:#d5b9c0}
+.card{background:linear-gradient(145deg,rgba(27,13,22,.98),rgba(12,9,15,.99))!important;border-color:#512331!important;box-shadow:0 12px 30px #0008,0 0 0 1px #e51c3510 inset}
+h2{color:#fff1f2}
+.section-label,.reveal-step,.endgame-kicker{color:#ff6676!important}
+label{color:#cbb7bd}
+textarea,input,select{background:#0a070c!important;border-color:#512331!important;color:#fff4f2!important}
+textarea:focus,input:focus,select:focus{border-color:#ff334b!important;box-shadow:0 0 0 3px #ff263d22}
+.primary{background:linear-gradient(135deg,#ff3348,#b8092b)!important;color:#fff!important;box-shadow:0 5px 18px #b8092b30}
+.secondary{background:linear-gradient(145deg,#25121d,#160c14)!important;color:#fff1f2!important;border-color:#572434!important}
+.danger{background:#4a101f!important;color:#ffdce1!important;border-color:#a52640!important}
+.green{background:#35101b!important;color:#ffd5dc!important;border-color:#8b2338!important}
+.role-config,.player{background:linear-gradient(145deg,#1b1019,#100b12)!important;border-color:#49202c!important}
+.notice{background:linear-gradient(120deg,#30101b,#1b0c14)!important;border-color:#742438!important;color:#ffe5e8!important}
+.pill{background:#35111d!important;color:#ffcbd3!important;border:1px solid #632234}
+.banner{background:radial-gradient(circle at top,#4a101e,#170a11)!important;border-color:#a82b43!important}
+.banner h2{color:#ff6879!important}.banner p{color:#ffe3e7!important}
+.reveal-stage{background:radial-gradient(ellipse at top,#45101f 0%,#1a0c15 48%,#09070c 100%)!important;border-color:#742438!important;box-shadow:0 12px 34px #0008,0 0 28px #e51b3510 inset}
+.reveal-avatar{background:linear-gradient(145deg,#64172a,#1b0c15)!important;border-color:#b62c47!important;box-shadow:0 10px 32px #c10e3033!important}
+.reveal-progress{background:#32131f!important}.reveal-progress span,.alive-meter span{background:linear-gradient(90deg,#ff263d,#a80729)!important}
+.player:not(.dead):hover{border-color:#ff334b!important}
+.endgame-overlay{background:radial-gradient(circle at 50% 0%,#641225 0%,#250b16 43%,#09060b 100%)!important;border-color:#a62a43!important;box-shadow:0 12px 38px #0009,0 0 30px #d10d301c}
+.endgame-kicker{color:#ff7180!important}.endgame-title{color:#fff4f3!important;text-shadow:0 0 22px #ff203922}.endgame-detail{color:#e6cbd0!important}
+.endgame-stat{background:#100910!important;border-color:#572132!important}.endgame-stat strong{color:#ff6b7b!important}
+.endgame-overlay .primary{background:linear-gradient(135deg,#ff3348,#b8092b)!important;color:#fff!important}
+.endgame-replay{background:#21101a!important;color:#fff1f2!important;border-color:#642436!important}
+.log-item{border-color:#3b1b27!important}
+button:focus-visible{outline-color:#ff5368!important}
+@media(prefers-reduced-motion:no-preference){.reveal-stage:before{background:conic-gradient(from 0deg,transparent,#ff263d20,transparent,#ff263d12,transparent)!important}}
+
+
+/* Role-accent surfaces: preserve the crimson noir base, tint only role-specific panels */
+.endgame-overlay.role-accent-mafia{--role-accent:#ff334f;--role-glow:#ff183b;--role-bg:#3b0d1b;--role-edge:#a92240}
+.endgame-overlay.role-accent-civilian{--role-accent:#d4d4d8;--role-glow:#a3a3a3;--role-bg:#29292d;--role-edge:#68686f}
+.endgame-overlay.role-accent-detective{--role-accent:#67e8f9;--role-glow:#06b6d4;--role-bg:#0d2b36;--role-edge:#16758a}
+.endgame-overlay.role-accent-angel,.endgame-overlay.role-accent-doctor,.endgame-overlay.role-accent-bodyguard{--role-accent:#86efac;--role-glow:#22c55e;--role-bg:#102d20;--role-edge:#28794a}
+.endgame-overlay.role-accent-joker,.endgame-overlay.role-accent-witch{--role-accent:#d8b4fe;--role-glow:#a855f7;--role-bg:#26133d;--role-edge:#7040a1}
+.endgame-overlay.role-accent-serial{--role-accent:#fdba74;--role-glow:#f97316;--role-bg:#3b1a10;--role-edge:#a84b25}
+.endgame-overlay.role-accent-mayor,.endgame-overlay.role-accent-vigilante{--role-accent:#fde047;--role-glow:#eab308;--role-bg:#30290d;--role-edge:#8b751b}
+.endgame-overlay[class*="role-accent-"]{background:radial-gradient(circle at 50% 0%,var(--role-bg) 0%,#190b13 58%,#09060b 100%)!important;border-color:var(--role-edge)!important;box-shadow:0 12px 36px #0008,0 0 34px color-mix(in srgb,var(--role-glow) 18%,transparent)!important}
+.endgame-overlay[class*="role-accent-"] .endgame-kicker,.endgame-overlay[class*="role-accent-"] .endgame-stat strong{color:var(--role-accent)!important}
+.endgame-overlay[class*="role-accent-"] .endgame-stat{border-color:var(--role-edge)!important}
+.endgame-overlay[class*="role-accent-"] .endgame-trophy{filter:drop-shadow(0 5px 16px var(--role-glow))}
+.reveal-stage.role-accent-mafia,.player.role-accent-mafia{--role-accent:#ff334f;--role-glow:#ff183b;--role-bg:#3b0d1b;--role-edge:#a92240}
+.reveal-stage.role-accent-civilian,.player.role-accent-civilian{--role-accent:#d4d4d8;--role-glow:#a3a3a3;--role-bg:#29292d;--role-edge:#68686f}
+.reveal-stage.role-accent-detective,.player.role-accent-detective{--role-accent:#67e8f9;--role-glow:#06b6d4;--role-bg:#0d2b36;--role-edge:#16758a}
+.reveal-stage.role-accent-angel,.player.role-accent-angel,.reveal-stage.role-accent-doctor,.player.role-accent-doctor,.reveal-stage.role-accent-bodyguard,.player.role-accent-bodyguard{--role-accent:#86efac;--role-glow:#22c55e;--role-bg:#102d20;--role-edge:#28794a}
+.reveal-stage.role-accent-joker,.player.role-accent-joker,.reveal-stage.role-accent-witch,.player.role-accent-witch{--role-accent:#d8b4fe;--role-glow:#a855f7;--role-bg:#26133d;--role-edge:#7040a1}
+.reveal-stage.role-accent-serial,.player.role-accent-serial{--role-accent:#fdba74;--role-glow:#f97316;--role-bg:#3b1a10;--role-edge:#a84b25}
+.reveal-stage.role-accent-mayor,.player.role-accent-mayor,.reveal-stage.role-accent-vigilante,.player.role-accent-vigilante{--role-accent:#fde047;--role-glow:#eab308;--role-bg:#30290d;--role-edge:#8b751b}
+.reveal-stage[class*="role-accent-"]{background:radial-gradient(ellipse at top,var(--role-bg) 0%,#190b13 52%,#09060b 100%)!important;border-color:var(--role-edge)!important;box-shadow:0 12px 34px #0008,0 0 34px color-mix(in srgb,var(--role-glow) 13%,transparent) inset}
+.reveal-stage[class*="role-accent-"] .reveal-step{color:var(--role-accent)!important}
+.reveal-stage[class*="role-accent-"] .reveal-avatar{background:linear-gradient(145deg,var(--role-bg),#100910)!important;border-color:var(--role-edge)!important;box-shadow:0 10px 32px color-mix(in srgb,var(--role-glow) 22%,transparent)!important}
+.reveal-stage[class*="role-accent-"] .reveal-progress span{background:linear-gradient(90deg,var(--role-accent),var(--role-glow))!important}
+.player[class*="role-accent-"]{background:linear-gradient(135deg,color-mix(in srgb,var(--role-bg) 72%,#160b12),#100910)!important;border-color:var(--role-edge)!important;box-shadow:inset 3px 0 0 var(--role-accent),0 6px 18px #0003}
+.player[class*="role-accent-"] .player-top strong{color:var(--role-accent)}
+.player[class*="role-accent-"] .actions .danger{border-color:var(--role-edge)!important}
+
+
+/* Role-matched action buttons: reveal hide/pass and victory replay */
+.reveal-stage[class*="role-accent-"] .primary,
+.endgame-overlay[class*="role-accent-"] .primary {
+  background:linear-gradient(135deg,var(--role-glow),var(--role-edge))!important;
+  color:#fff!important;
+  border:1px solid var(--role-accent)!important;
+  box-shadow:0 7px 22px color-mix(in srgb,var(--role-glow) 28%,transparent)!important;
+}
+.reveal-stage[class*="role-accent-"] .primary:active,
+.endgame-overlay[class*="role-accent-"] .primary:active { filter:brightness(1.12); }
+.endgame-overlay[class*="role-accent-"] .endgame-replay {
+  background:linear-gradient(135deg,var(--role-bg),#100910)!important;
+  color:var(--role-accent)!important;
+  border:1px solid var(--role-edge)!important;
+}
+</style>
+<style>
+/* Final role-panel fix: keep the reveal card entirely within the active role palette.
+   No burgundy/crimson midpoint bleeding into non-red roles. */
+.reveal-stage[class*="role-accent-"]{
+  background:linear-gradient(145deg,
+    color-mix(in srgb,var(--role-bg) 92%,#000 8%),
+    color-mix(in srgb,var(--role-bg) 68%,#000 32%)) !important;
+  border-color:var(--role-edge)!important;
+  box-shadow:inset 0 0 36px color-mix(in srgb,var(--role-glow) 12%,transparent),
+             0 12px 34px #0008!important;
+  isolation:isolate;
+}
+.reveal-stage[class*="role-accent-"]::before{
+  background:radial-gradient(ellipse at 50% 20%,
+    color-mix(in srgb,var(--role-glow) 13%,transparent),
+    transparent 68%)!important;
+  opacity:.55;
+}
+.reveal-stage[class*="role-accent-"] .reveal-avatar{
+  background:linear-gradient(145deg,
+    color-mix(in srgb,var(--role-bg) 88%,#000 12%),
+    color-mix(in srgb,var(--role-bg) 60%,#000 40%))!important;
+}
+</style>
+
+<style>
+/* Darker, fully role-tinted reveal and victory surfaces */
+.reveal-stage[class*="role-accent-"] {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--role-bg) 82%, #000 18%),
+    color-mix(in srgb, var(--role-bg) 58%, #000 42%)) !important;
+  border-color: var(--role-edge) !important;
+  box-shadow: inset 0 0 26px color-mix(in srgb, var(--role-glow) 7%, transparent),
+              0 12px 30px #000b !important;
+  transition: background .45s ease, border-color .45s ease, box-shadow .45s ease;
+}
+.reveal-stage[class*="role-accent-"]::before {
+  background: radial-gradient(ellipse at 50% 15%,
+    color-mix(in srgb, var(--role-glow) 8%, transparent), transparent 72%) !important;
+  opacity: .38;
+  animation: none !important;
+}
+.reveal-stage[class*="role-accent-"] .reveal-avatar {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--role-bg) 72%, #000 28%),
+    color-mix(in srgb, var(--role-bg) 45%, #000 55%)) !important;
+  transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
+}
+.endgame-overlay[class*="role-accent-"] {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--role-bg) 78%, #000 22%),
+    color-mix(in srgb, var(--role-bg) 48%, #000 52%)) !important;
+  border-color: var(--role-edge) !important;
+  box-shadow: inset 0 0 28px color-mix(in srgb, var(--role-glow) 7%, transparent),
+              0 14px 34px #000b !important;
+  transition: background .45s ease, border-color .45s ease, box-shadow .45s ease;
+}
+.endgame-overlay[class*="role-accent-"] .endgame-stat {
+  background: color-mix(in srgb, var(--role-bg) 58%, #050505 42%) !important;
+  border-color: color-mix(in srgb, var(--role-edge) 75%, #000 25%) !important;
+  transition: background .35s ease, border-color .35s ease, transform .25s ease;
+}
+.endgame-overlay[class*="role-accent-"] .endgame-stat:hover { transform: translateY(-2px); }
+.endgame-overlay[class*="role-accent-"] .endgame-title {
+  text-shadow: 0 0 18px color-mix(in srgb, var(--role-glow) 18%, transparent) !important;
+}
+/* Smoother, restrained interactions and entrances */
+button { transition: transform .2s cubic-bezier(.2,.8,.2,1), background .25s ease,
+  color .25s ease, border-color .25s ease, box-shadow .25s ease, filter .25s ease !important; }
+button:active { transform: scale(.985) !important; }
+.card, .player, .notice, .reveal-stage, .endgame-overlay {
+  animation-duration: .42s;
+  animation-timing-function: cubic-bezier(.2,.75,.25,1);
+}
+.reveal-role { animation: roleRevealSmooth .42s cubic-bezier(.2,.8,.2,1) both !important; }
+@keyframes roleRevealSmooth {
+  from { opacity: 0; transform: translateY(8px) scale(.97); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-stage[class*="role-accent-"]::before { animation: none !important; }
+  .endgame-overlay[class*="role-accent-"] .endgame-stat:hover { transform: none; }
+}
+</style>
+
+</head>
 <body><main>
-<header><div class="logo">🎭</div><h1>MAFIA NIGHT</h1><p>Host mode · Track the whole game on one phone</p></header>
+<header><div class="logo">🎭</div><h1>MAFIA NIGHT</h1><p>Trust nobody. Read everyone. Survive the night.</p></header>
 
 <section class="card" id="setup">
 <h2>Game setup · <span id="playerCount">9</span> players</h2>
@@ -67,7 +268,7 @@ Sarath</textarea>
 <section class="card hidden" id="game">
 <div class="status"><span id="roundLabel">ROUND 1</span><span id="aliveLabel">9 alive</span></div>
 <div id="winner"></div>
-<div id="phaseNote" class="notice">Round started. Host: record each elimination below.</div>
+<div id="phaseNote" class="notice">Round started. Host: record each elimination below.</div><div class="alive-meter" aria-label="Living players"><span id="aliveMeterFill" style="width:100%"></span></div>
 <h2>Players & host actions</h2>
 <p class="small">Tap an action beside a player to log a night kill or daytime vote-out. Roles stay visible to the host. Eliminations are permanent unless you undo the last action.</p>
 <div id="players"></div>
@@ -131,13 +332,14 @@ function renderReveal(){
  $('beginGame').disabled=done!==total||revealingIndex!==null;
  $('beginGame').style.opacity=$('beginGame').disabled?'.5':'1';
  $('revealHint').textContent=done===total?'Everyone has checked their role. Start the game!':'Keep the role hidden from everyone else; pass the phone after hiding it.';
- const root=$('revealStage');root.innerHTML='';
+ const root=$('revealStage');root.innerHTML='';root.className='reveal-stage';
  const add=(tag,cls,txt,parent=root)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;parent.appendChild(e);return e};
  const progress=()=>{const bar=add('div','reveal-progress');const fill=add('span','');fill.style.width=`${total?done/total*100:0}%`};
  if(done===total&&revealingIndex===null){add('div','reveal-finished','🎉');add('div','reveal-step','ALL ROLES DISTRIBUTED');add('h2','reveal-player-name','Everyone is ready!');add('p','reveal-instruction','All roles have been revealed and hidden. Start the game when everyone is seated.');progress();return;}
  const idx=revealingIndex!==null?revealingIndex:players.findIndex((p,i)=>!revealViewed.has(i));
  if(idx<0||!players[idx]){add('h2','reveal-player-name','Something went wrong');add('p','reveal-instruction','Return to setup and start the round again.');return;}
  const p=players[idx];
+ if(revealingIndex===idx)root.classList.add(`role-accent-${p.role.cls}`);
  add('div','reveal-step',`PLAYER ${idx+1} OF ${total}`);
  add('div','reveal-avatar',revealingIndex===idx?p.role.emoji:'🎭');
  add('h2','reveal-player-name',revealingIndex===idx?p.name:`Pass the phone to ${p.name}`);
@@ -160,7 +362,7 @@ if(alive.length===0){winner={title:'No survivors',detail:'Everyone has been elim
 function undo(){if(!log.length)return;const last=log.pop();players[last.i].alive=true;winner=last.priorWinner||null;render()}
 function render(){const alive=players.filter(p=>p.alive).length;$('aliveLabel').textContent=`${alive} alive`;$('winner').innerHTML='';
 if(winner){const b=document.createElement('div');b.className='banner';const h=document.createElement('h2');h.textContent=winner.title;const p=document.createElement('p');p.textContent=winner.detail;b.append(h,p);$('winner').appendChild(b);$('phaseNote').textContent='Game over. Start a new round or undo the last elimination.'}else{$('phaseNote').textContent='Game in progress. Record eliminations as they happen.'}
-const root=$('players');root.innerHTML='';players.forEach((p,i)=>{const el=document.createElement('div');el.className='player'+(!p.alive?' dead':'');const top=document.createElement('div');top.className='player-top';const left=document.createElement('div');const name=document.createElement('strong');name.textContent=p.name;left.appendChild(name);const life=document.createElement('div');life.className='life';life.textContent=p.alive?'ALIVE':'ELIMINATED';left.appendChild(life);top.appendChild(left);const role=document.createElement('span');role.className='role '+p.role.cls;role.textContent=`${p.role.emoji} ${p.role.name}`;top.appendChild(role);el.appendChild(top);
+const root=$('players');root.innerHTML='';players.forEach((p,i)=>{const el=document.createElement('div');el.className='player role-accent-'+p.role.cls+(!p.alive?' dead':'');const top=document.createElement('div');top.className='player-top';const left=document.createElement('div');const name=document.createElement('strong');name.textContent=p.name;left.appendChild(name);const life=document.createElement('div');life.className='life';life.textContent=p.alive?'ALIVE':'ELIMINATED';left.appendChild(life);top.appendChild(left);const role=document.createElement('span');role.className='role '+p.role.cls;role.textContent=`${p.role.emoji} ${p.role.name}`;top.appendChild(role);el.appendChild(top);
 if(p.alive&&!winner){const actions=document.createElement('div');actions.className='actions';const kill=document.createElement('button');kill.className='danger';kill.textContent='☾ Night kill';kill.onclick=()=>confirm(`Log ${p.name} as killed at night?`)&&record(i,'killed');const voted=document.createElement('button');voted.className='secondary';voted.textContent='🗳️ Voted out';voted.onclick=()=>confirm(`Log ${p.name} as voted out during the day?`)&&record(i,'voted');const other=document.createElement('button');other.className='secondary';other.textContent='✖ Other death';other.onclick=()=>confirm(`Log ${p.name} as eliminated by another method?`)&&record(i,'other');actions.append(kill,voted,other);el.appendChild(actions)}
 root.appendChild(el)});
 const hist=$('history');hist.innerHTML='';if(!log.length){const e=document.createElement('div');e.className='small';e.textContent='No eliminations logged yet.';hist.appendChild(e)}else log.forEach((a,n)=>{const d=document.createElement('div');d.className='log-item';d.textContent=`${n+1}. ${a.name} — ${a.kind==='killed'?'killed at night':a.kind==='voted'?'voted out':'other elimination'} (${a.role})`;hist.appendChild(d)});
@@ -169,5 +371,71 @@ $('start').onclick=startGame;$('beginGame').onclick=beginHostGame;$('newGame').o
 $('edit').onclick=()=>{$('game').classList.add('hidden');$('reveal').classList.add('hidden');$('historyCard').classList.add('hidden');$('setup').classList.remove('hidden');validate()};
 $('reset').onclick=()=>{if(confirm('Reset the game and return to setup?')){$('game').classList.add('hidden');$('reveal').classList.add('hidden');$('historyCard').classList.add('hidden');$('setup').classList.remove('hidden');players=[];log=[];winner=null;revealViewed=new Set();revealingIndex=null}};
 ['names',...roleDefs.map(r=>r.id)].forEach(id=>$(id).addEventListener('input',validate));validate();
+
+
+/* Endgame celebration only: no toast messages and no manual phase controls. */
+(function(){
+  function updateAliveMeter(){
+    const label=document.getElementById('aliveLabel');
+    const fill=document.getElementById('aliveMeterFill');
+    if(!label||!fill)return;
+    const alive=Number((label.textContent.match(/\d+/)||['0'])[0]);
+    const total=Number(document.getElementById('playerCount')?.textContent)||1;
+    fill.style.width=Math.max(0,Math.min(100,alive/Math.max(1,total)*100))+'%';
+  }
+  function decorateEndgame(){
+    const winner=document.getElementById('winner');
+    if(!winner)return;
+    const titleNode=winner.querySelector('h2');
+    if(!titleNode)return;
+    if(winner.querySelector('.endgame-overlay'))return;
+    const title=titleNode.textContent||'Game over';
+    const detail=winner.querySelector('p')?.textContent||'The game has ended.';
+    const alive=Number((document.getElementById('aliveLabel')?.textContent.match(/\d+/)||['0'])[0]);
+    const total=Number(document.getElementById('playerCount')?.textContent)||0;
+    const eliminated=Math.max(0,total-alive);
+    const lower=title.toLowerCase();
+    const trophy=lower.includes('joker')?'🃏':lower.includes('mafia')?'🔪':lower.includes('town')?'🏘️':lower.includes('serial')?'💀':'🏆';
+    const panel=document.createElement('section');panel.className='endgame-overlay';
+    /* Match the victory panel to the winning role/team accent. Joker uses the Witch/Joker purple accent. */
+    const accent=lower.includes('joker')?'witch':lower.includes('mafia')?'mafia':lower.includes('town')?'angel':lower.includes('serial')?'serial':'';
+    if(accent)panel.classList.add('role-accent-'+accent);
+    panel.setAttribute('aria-live','polite');
+    const kicker=document.createElement('div');kicker.className='endgame-kicker';kicker.textContent='THE GAME IS OVER';
+    const icon=document.createElement('div');icon.className='endgame-trophy';icon.textContent=trophy;
+    const heading=document.createElement('h2');heading.className='endgame-title';heading.textContent=title;
+    const copy=document.createElement('p');copy.className='endgame-detail';copy.textContent=detail;
+    const stats=document.createElement('div');stats.className='endgame-stats';
+    [[alive,'Survivors'],[eliminated,'Eliminated'],[total,'Players']].forEach(([num,label])=>{
+      const item=document.createElement('div');item.className='endgame-stat';
+      const strong=document.createElement('strong');strong.textContent=String(num);
+      const span=document.createElement('span');span.textContent=label;
+      item.append(strong,span);stats.appendChild(item);
+    });
+    const actions=document.createElement('div');actions.className='endgame-actions';
+    const replay=document.createElement('button');replay.type='button';replay.className='primary';replay.textContent='🎲 Play again';
+    replay.addEventListener('click',()=>document.getElementById('newGame')?.click());
+    const setup=document.createElement('button');setup.type='button';setup.className='endgame-replay';setup.textContent='⚙️ Change setup';
+    setup.addEventListener('click',()=>document.getElementById('edit')?.click());
+    actions.append(replay,setup);panel.append(kicker,icon,heading,copy,stats,actions);
+    winner.replaceChildren(panel);
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      const colors=['#d4d4d4','#aaaaaa','#777777','#eeeeee','#555555'];
+      for(let i=0;i<24;i++){
+        const piece=document.createElement('i');piece.setAttribute('aria-hidden','true');
+        piece.style.cssText=`position:absolute;top:-12px;left:${Math.random()*100}%;width:6px;height:10px;border-radius:2px;background:${colors[i%colors.length]};transform:rotate(${Math.random()*180}deg);animation:confettiFall ${1.6+Math.random()*1.5}s ${Math.random()*.6}s ease-out forwards;pointer-events:none`;
+        panel.appendChild(piece);
+      }
+    }
+  }
+  const originalRender=window.render;
+  if(typeof originalRender==='function'){
+    window.render=function(){originalRender();updateAliveMeter();decorateEndgame()};
+  }
+  document.getElementById('players')?.addEventListener('click',()=>setTimeout(()=>{updateAliveMeter();decorateEndgame()},0));
+  document.getElementById('undo')?.addEventListener('click',()=>setTimeout(()=>{updateAliveMeter();decorateEndgame()},0));
+  document.getElementById('newGame')?.addEventListener('click',()=>setTimeout(()=>{const w=document.getElementById('winner');if(w)w.innerHTML='';updateAliveMeter()},0));
+  updateAliveMeter();
+})();
 </script><script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.warn("Offline support could not be registered", err))); }</script>
 </body></html>
